@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Restful Booker API Tests" verbose="1">
+    <test name="Authentication Tests">
+        <classes>
+            <class name="tests.AuthTests"/>
+        </classes>
+    </test>
+
+    <test name="Happy Path Booking Tests">
+        <classes>
+            <class name="tests.BookingTests"/>
+        </classes>
+    </test>
+
+    <test name="Negative Booking Tests">
+        <classes>
+            <class name="tests.NegativeBookingTests"/>
+        </classes>
+    </test>
+
+    <test name="E2E Booking Tests">
+        <classes>
+            <class name="tests.BookingE2ETest"/>
+        </classes>
+    </test>
+</suite>

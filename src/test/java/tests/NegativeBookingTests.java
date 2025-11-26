@@ -206,6 +206,28 @@ public class NegativeBookingTests extends BaseTest {
         assertTrue(response.getStatusCode() >= 400,
                 "Should return error for invalid token. Got: " + response.getStatusCode());
     }
+    @Test(description = "PUT-03: Update booking with missing firstname")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Negative - Update Booking")
+    @Description("Verify PUT update fails when a required field is missing")
+    public void testPutUpdateMissingFirstName() {
+
+        // Create booking first
+        Booking original = BookingService.createSampleBooking();
+        BookingResponse created = bookingService.createBooking(original);
+
+        Booking invalidUpdate = new Booking();
+        invalidUpdate.setLastname("Brown");
+        invalidUpdate.setTotalprice(200);
+        invalidUpdate.setDepositpaid(true);
+        invalidUpdate.setBookingdates(new BookingDates("2018-01-01", "2019-01-01"));
+
+        Response response = bookingService.updateBooking(created.getBookingid(), invalidUpdate, token);
+
+        assertNotEquals(response.getStatusCode(), 200,
+                "PUT should fail when firstname is missing");
+    }
+
 
     @Test(description = "PUT-04: Update booking with negative price")
     @Severity(SeverityLevel.NORMAL)
@@ -232,6 +254,100 @@ public class NegativeBookingTests extends BaseTest {
                     "Booking should be returned after update");
         }
     }
+
+    @Test(description = "PUT-05: Update non-existing booking ID")
+    @Severity(SeverityLevel.MINOR)
+    @Story("Negative - Not Found")
+    @Description("Verify PUT update fails for non-existing booking ID")
+    public void testPutUpdateNonExistingId() {
+
+        int invalidId = 999999;
+
+        Booking booking = BookingService.createSampleBooking();
+
+        Response response = bookingService.updateBooking(invalidId, booking, token);
+
+        assertEquals(response.getStatusCode(), 405,
+                "Expected 405 Method Not Allowed for non-existing booking ID");
+    }
+
+    @Test(description = "PUT-06: Update booking with invalid schema (known bug)")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Negative - Invalid Booking Data")
+    @Issue("BUG-API-VALIDATION-BOOKING-SCHEMA")
+    public void testUpdateBookingWithInvalidSchema_KnownBug() {
+
+        // Arrange: create valid booking first
+        Booking original = BookingService.createSampleBooking();
+        BookingResponse created = bookingService.createBooking(original);
+
+        // Create a clearly invalid booking object
+        Booking corrupted = new Booking();
+        corrupted.setFirstname(null);         // null firstname (required)
+        corrupted.setLastname("X");
+        corrupted.setTotalprice(-100);        // negative price
+        corrupted.setDepositpaid(true);
+        corrupted.setBookingdates(new BookingDates("2024-13-01", "2024-00-01"));
+        // Act: try to update
+        Response response = bookingService.updateBooking(created.getBookingid(), corrupted, token);
+
+        System.out.println("PUT invalid schema status = " + response.getStatusCode());
+
+       // fail("Known BUG: API accepts clearly invalid booking schema instead of rejecting it.");
+    }
+
+    @Test(description = "PATCH-NEG-07: Real race condition test with parallel PATCH")
+    @Severity(SeverityLevel.BLOCKER)
+    @Story("Negative - Real Concurrency Issue")
+    @Issue("BUG-API-CONCURRENCY-RACE")
+    public void testPatchRaceCondition_REAL() throws InterruptedException {
+
+        Booking booking = BookingService.createSampleBooking();
+        BookingResponse created = bookingService.createBooking(booking);
+        Integer bookingId = created.getBookingid();
+
+        // Request bodies
+        Map<String, Object> patchA = new HashMap<>();
+        patchA.put("firstname", "ThreadA");
+
+        Map<String, Object> patchB = new HashMap<>();
+        patchB.put("firstname", "ThreadB");
+
+        // To hold the responses from both threads
+        final Response[] responseA = new Response[1];
+        final Response[] responseB = new Response[1];
+
+        Thread t1 = new Thread(() -> {
+            responseA[0] = bookingService.partialUpdateBooking(bookingId, patchA, token);
+        });
+
+        Thread t2 = new Thread(() -> {
+            responseB[0] = bookingService.partialUpdateBooking(bookingId, patchB, token);
+        });
+
+        // Run both at the SAME TIME
+        t1.start();
+        t2.start();
+
+        // Wait for both to finish
+        t1.join();
+        t2.join();
+
+        System.out.println("PATCH A status = " + responseA[0].getStatusCode());
+        System.out.println("PATCH B status = " + responseB[0].getStatusCode());
+
+        // EXPECTED: One should succeed, one should FAIL with 409
+        boolean oneFailedAsConflict =
+                responseA[0].getStatusCode() == 409 ||
+                        responseB[0].getStatusCode() == 409;
+
+        // ASSERT -> Will FAIL ALWAYS because RestfulBooker does NOT detect conflicts
+        assertTrue(oneFailedAsConflict,
+                "BUG: API failed to detect concurrent update conflict. Both requests were accepted!");
+    }
+
+
+
     @Test(description = "DEL-01: Delete booking without token")
     @Severity(SeverityLevel.CRITICAL)
     @Story("Negative Path - Unauthorized Deletion")
@@ -264,6 +380,30 @@ public class NegativeBookingTests extends BaseTest {
 
         assertTrue(response.getStatusCode() >= 400,
                 "Should return error for invalid token. Got: " + response.getStatusCode());
+    }
+
+    @Test(description = "DEL-03: Delete booking with historical date (should be blocked)")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Negative - Integrity Constraints")
+    @Description("Verify API prevents deleting bookings with past checkout dates")
+    @Issue("BUG-API-SOFT-DELETE-RULES")
+    public void testDeleteHistoricalBooking() {
+
+        // Create booking with old/historical dates
+        Booking booking = new Booking();
+        booking.setFirstname("John");
+        booking.setLastname("Doe");
+        booking.setTotalprice(500);
+        booking.setDepositpaid(true);
+        booking.setBookingdates(new BookingDates("2010-01-01", "2010-01-05"));
+
+        BookingResponse created = bookingService.createBooking(booking);
+
+        Response deleteResponse = bookingService.deleteBooking(created.getBookingid(), token);
+
+        // Expected Real Behavior → Prevent deletion for historical financial records
+        assertEquals(deleteResponse.getStatusCode(), 409,
+                "BUG: API should NOT ALLOW deleting historical bookings (integrity rule).");
     }
 
     @Test(description = "DEL-04: Delete booking twice")

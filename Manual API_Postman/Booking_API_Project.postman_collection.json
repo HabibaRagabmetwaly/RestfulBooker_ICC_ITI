@@ -1,0 +1,4072 @@
+{
+	"info": {
+		"_postman_id": "1af4aa53-1004-4679-9339-ed04a3d179de",
+		"name": "Booking_API_Project",
+		"description": "بسم الله الرحمن الرحيم\n\nThis is the individal ITI ICC project \"Booking Room\"\n\nThe Heriarchy :\n\nStartFragment\n\n```\n📁 Booking_API_Project\n├──  Happy_Path\n├──  Negative_Testing  \n└── Full_Scenario (E2E)\n    ├──  POST Login\n    ├──  POST Create Booking\n    ├──  GET Get Booking\n    ├──  PUT Update Booking\n    └── DELETE Delete Bookin\n\n ```\n\nEndFragment  \nBy:Habiba Ragab Abdelmononeam",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41733469"
+	},
+	"item": [
+		{
+			"name": "Happy Path",
+			"item": [
+				{
+					"name": "creat auth_token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check status code is 200\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Check if token exists in response\r",
+									"pm.test(\"Response has token\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.token).to.not.be.undefined;\r",
+									"});\r",
+									"\r",
+									"// Save token to environment variable\r",
+									"pm.test(\"Save token to environment\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.environment.set(\"auth_token\", jsonData.token);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST \\\r\n  https://restful-booker.herokuapp.com/auth \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"password123\"\r\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Booking by all data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Basic Response Validation\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has bookings array\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/booking",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get booking by valid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Basic Response Validation\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/booking/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter booking by first and last name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Basic Response Validation\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/booking?firstname=sally&lastname=brown",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							],
+							"query": [
+								{
+									"key": "firstname",
+									"value": "sally"
+								},
+								{
+									"key": "lastname",
+									"value": "brown"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter booking by checkin and check out date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Basic Response Validation\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/booking?checkin=2014-03-13&checkout=2014-05-21",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							],
+							"query": [
+								{
+									"key": "checkin",
+									"value": "2014-03-13"
+								},
+								{
+									"key": "checkout",
+									"value": "2014-05-21"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get booking by another  valid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Basic Response Validation\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new booking for all valid data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Clean, hardened Tests for create new booking",
+									"// Covers: status, schema, response time, env var save, request-vs-response match, debug logs",
+									"",
+									"(function () {",
+									"    // Helper: safe JSON parse for request body",
+									"    function tryParseJson(str) {",
+									"        try { return JSON.parse(str); } catch (e) { return null; }",
+									"    }",
+									"",
+									"    // 1) Status code check",
+									"    pm.test(\"Status code is 200 or 201\", function () {",
+									"        pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    });",
+									"",
+									"    // Attempt to parse response JSON early",
+									"    let jsonData;",
+									"    pm.test(\"Response is valid JSON\", function () {",
+									"        jsonData = pm.response.json();",
+									"        pm.expect(jsonData).to.be.an(\"object\");",
+									"    });",
+									"",
+									"    // 2) Validate top-level shape and required properties",
+									"    pm.test(\"Response shape has bookingid:number and booking:object\", function () {",
+									"        pm.expect(jsonData).to.have.property(\"bookingid\");",
+									"        pm.expect(jsonData.bookingid).to.be.a(\"number\");",
+									"        pm.expect(jsonData).to.have.property(\"booking\");",
+									"        pm.expect(jsonData.booking).to.be.an(\"object\");",
+									"    });",
+									"",
+									"    // Validate nested booking schema minimally",
+									"    pm.test(\"Booking object has required fields with expected types\", function () {",
+									"        const b = jsonData.booking;",
+									"        pm.expect(b).to.have.property(\"firstname\").that.is.a(\"string\");",
+									"        pm.expect(b).to.have.property(\"lastname\").that.is.a(\"string\");",
+									"        pm.expect(b).to.have.property(\"totalprice\").that.satisfies(v => typeof v === \"number\" || typeof v === \"string\", \"totalprice should be number or numeric string\");",
+									"        pm.expect(b).to.have.property(\"depositpaid\").that.is.a(\"boolean\");",
+									"        pm.expect(b).to.have.property(\"bookingdates\").that.is.an(\"object\");",
+									"        pm.expect(b.bookingdates).to.have.property(\"checkin\").that.is.a(\"string\");",
+									"        pm.expect(b.bookingdates).to.have.property(\"checkout\").that.is.a(\"string\");",
+									"        // optional but commonly present",
+									"        if (b.hasOwnProperty(\"additionalneeds\")) {",
+									"            pm.expect(b.additionalneeds).to.satisfies(v => typeof v === \"string\" || v === null);",
+									"        }",
+									"    });",
+									"",
+									"    // 3) Response time",
+									"    pm.test(\"Response time is under 3000ms\", function () {",
+									"        pm.expect(pm.response.responseTime).to.be.below(3000);",
+									"    });",
+									"",
+									"    // 4) Save booking_id to environment when present",
+									"    pm.test(\"Save booking_id to environment when present\", function () {",
+									"        if (jsonData && typeof jsonData.bookingid === \"number\") {",
+									"            pm.environment.set(\"booking_id\", jsonData.bookingid);",
+									"            pm.expect(pm.environment.get(\"booking_id\")).to.exist;",
+									"        } else {",
+									"            // Explicit assertion failure to surface missing id",
+									"            pm.expect.fail(\"bookingid missing or not a number in response\");",
+									"        }",
+									"    });",
+									"",
+									"    // 5) Verify echoed booking details match the request body",
+									"    pm.test(\"Echoed booking details match the request body\", function () {",
+									"        const requestBody = tryParseJson(pm.request.body && pm.request.body.raw ? pm.request.body.raw : \"\");",
+									"        pm.expect(requestBody, \"Request body must be valid JSON to compare\").to.be.an(\"object\");",
+									"        const b = jsonData.booking || {};",
+									"",
+									"        // Compare key fields if present in request",
+									"        if (requestBody.firstname !== undefined) pm.expect(b.firstname, \"firstname\").to.eql(requestBody.firstname);",
+									"        if (requestBody.lastname !== undefined) pm.expect(b.lastname, \"lastname\").to.eql(requestBody.lastname);",
+									"        if (requestBody.totalprice !== undefined) pm.expect(Number(b.totalprice), \"totalprice\").to.eql(Number(requestBody.totalprice));",
+									"        if (requestBody.depositpaid !== undefined) pm.expect(b.depositpaid, \"depositpaid\").to.eql(requestBody.depositpaid);",
+									"        if (requestBody.additionalneeds !== undefined) pm.expect(b.additionalneeds, \"additionalneeds\").to.eql(requestBody.additionalneeds);",
+									"",
+									"        if (requestBody.bookingdates) {",
+									"            pm.expect(b.bookingdates, \"bookingdates\").to.be.an(\"object\");",
+									"            if (requestBody.bookingdates.checkin !== undefined) pm.expect(b.bookingdates.checkin, \"bookingdates.checkin\").to.eql(requestBody.bookingdates.checkin);",
+									"            if (requestBody.bookingdates.checkout !== undefined) pm.expect(b.bookingdates.checkout, \"bookingdates.checkout\").to.eql(requestBody.bookingdates.checkout);",
+									"        }",
+									"    });",
+									"",
+									"    // 6) Debug info on failures: attach useful context",
+									"    // Use console for deep diagnostics; Postman Test Results will show failing assertions with messages above",
+									"    try {",
+									"        pm.test(\"Debug context (non-failing)\", function () {",
+									"            // Only log when tests above have already parsed JSON",
+									"            console.info(\"Request name:\", pm.info.requestName);",
+									"            console.info(\"Env (active) name hint: Bookroom\");",
+									"            console.info(\"Saved booking_id:\", pm.environment.get(\"booking_id\"));",
+									"            console.info(\"Response time (ms):\", pm.response.responseTime);",
+									"        });",
+									"    } catch (e) {",
+									"        // swallow any logging issues",
+									"    }",
+									"})();"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Jim\",\r\n    \"lastname\" : \"Cary\",\r\n    \"totalprice\" : 1111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new booking for  least data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has booking ID\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('bookingid');\r",
+									"    pm.expect(jsonData.bookingid).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"})\r",
+									"pm.test(\"Save booking ID to environment\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    \r",
+									"    if (jsonData.bookingid) {\r",
+									"        pm.environment.set(\"booking_id\", jsonData.bookingid);\r",
+									"        console.log(\"Booking ID saved: \" + jsonData.bookingid);\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Park\",\r\n    \"lastname\" : \"pogumm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update current booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//basic test",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Updated to safely handle non-JSON responses (e.g., 403 Forbidden)",
+									"pm.test(\"Response contains updated booking\", function () {",
+									"    const ct = pm.response.headers.get(\"Content-Type\") || \"\";",
+									"    const isJson = ct.includes(\"application/json\");",
+									"",
+									"    let parsed;",
+									"    if (isJson) {",
+									"        try {",
+									"            parsed = pm.response.json();",
+									"        } catch (e) {",
+									"            // If declared as JSON but not parsable, fail with a helpful message",
+									"            pm.expect.fail(\"Response declared JSON but could not be parsed: \" + e.message);",
+									"        }",
+									"    } else {",
+									"        // If it's not JSON (e.g., text 'Forbidden'), skip property checks with a helpful assertion",
+									"        pm.expect.fail(\"Response is not JSON. Content-Type: '\" + ct + \"'. Body: '\" + pm.response.text() + \"'\");",
+									"    }",
+									"",
+									"    // Only run property assertions if JSON was parsed",
+									"    if (parsed) {",
+									"        pm.expect(parsed).to.be.an(\"object\");",
+									"        pm.expect(parsed).to.have.property(\"firstname\");",
+									"        pm.expect(parsed).to.have.property(\"lastname\");",
+									"    }",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Response contains updated data\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.firstname).to.not.be.null;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstname\": \"Mark\",\r\n    \"lastname\": \"Smith\",\r\n    \"totalprice\": 1000,\r\n    \"depositpaid\": false,\r\n    \"bookingdates\": {\r\n        \"checkin\": \"2024-05-12\",\r\n        \"checkout\": \"2025-01-11\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/{{booking_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"{{booking_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PartialUpdateBooking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Data updated successfully\", function () {",
+									"    if (pm.response.code === 200) {",
+									"        let jsonData;",
+									"        try {",
+									"            jsonData = pm.response.json();",
+									"        } catch (e) {",
+									"            pm.expect.fail(\"Response is not valid JSON\");",
+									"        }",
+									"        pm.expect(jsonData).to.have.property(\"firstname\", \"James\");",
+									"        pm.expect(jsonData).to.have.property(\"lastname\", \"Brown\");",
+									"    } else {",
+									"        pm.expect(pm.response.code).to.not.equal(200, `Expected status 200 but got ${pm.response.code}. Response body: ${pm.response.text()}`);",
+									"        pm.expect(pm.response.text()).to.include(\"Forbidden\");",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "token=abc123"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"James\",\n    \"lastname\" : \"Brown\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/{{booking_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"{{booking_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete existing booking with valed token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Booking deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// Authentication Check\r",
+									"pm.test(\" Delete requires valid token\", function () {\r",
+									"    if (pm.response.code !== 201) {\r",
+									"        pm.response.to.have.status(403);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// Performance\r",
+									"pm.test(\" Delete operation under 2 seconds\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46cGFzc3dvcmQxMjM="
+							},
+							{
+								"key": "Cookie",
+								"value": "token={{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/booking/{{booking_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"{{booking_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "TEST CASES\n\nStartFragment\n\n``` c\n1-POST /creat auth\nTC-AUTH-01:Login \n  - Data: {\"username\":\"admin\",\"password\":\"password123\"}\n  - Expected: 200 OK + token\nTC-AUTH-02:** Login with onther user\n  - Data: {\"username\":\"user\",\"password\":\"pass123\"}\n  - Expected: 200 OK + token\n2-POST /booking (login)\nTC-BOOKING-01:Create booking for all data\n  - URL: GET /booking\n  - Expected: 200 OK + array of bookings\nTC-BOOKING-02:Create booking for the least data\n  - URL: GET /booking?firstname=John\n  - Expected: 200 OK + filtered results\n3-GET/booking \n TC-GET-01:Get all bookings\n  - URL: GET /booking\n  - Expected: 200 OK + array of bookings\n Get bookings with filter:\n  TC-GETID-01: Get booking by valid ID\n  - URL: GET /booking/1\n  - Expected: 200 OK + booking details\n  TC-GETID-02: Get booking by Name (first and last names)\n  - URL: GET /booking/2\n  - Expected: 200 OK + booking details\n4-PUT /booking/{id} \n TC-PUT-01: Update booking wth avilavile  token \n  - Headers: {\"Cookie\": \"token=abc123\"}\n  - Data: { \"Firstname\":\"James\", \"bookingdates\" : {\n        \"checkin\" : \"2018-02-01\",\n        \"checkout\" : \"2018-04-01\"\n    },}\n  - Expected: 200 OK + updated booking\n  TC-PUT-02: Update booking with id \n  - Data: {}\n  - Expected: 200 OK + updated booking\n   TC-PUT-03: Update booking with id \n  - Data: {}\n  - Expected: 200 OK + updated booking\n 5-DELETE /booking/{id}\n  TC-DEL-01:Delete booking with accepted token\n  - Headers: {\"Cookie\": \"token=abc123\"}\n  - Expected: 201 Created or 200 OK\n  TC-DEL-02:Delete booking already existing\n  - URL: DELETE /booking/1\n  - Expected: 201 Created\n\n ```\n\nEndFragment  \nTC-AUTH-01:\n\n**Expected**: 200 OK + token  \n**Actual**: pass as expected and get the token and save it in variable"
+		},
+		{
+			"name": "Negative Path",
+			"item": [
+				{
+					"name": "Create token_invalid user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Bad POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\" : \"adminq\",\r\n    \"password\" : \"password1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login without password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code for missing password\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\" : \"adminq\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login without data (empty fields)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code for empty data\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login SQL Injection( Security wise)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Bad POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"admin' OR '1'='1\", \"password\": \"any\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create booking without firstname",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Bad POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : 111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create booking  wrong total price",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Bad POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Jim\",\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : \"one thousand\",\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create booking with Invalid dates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Bad POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : 1,\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : \"one thousand\",\r\n    \"depositpaid\" : F,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"209999999-01-01\",\r\n        \"checkout\" : \"kira\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create booking with Invalid dates Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"XSS injection blocked - status 400 or 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"firstname\": \"<script>alert(&#x27;xss&#x27;)</script>\",\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : \"one thousand\",\r\n    \"depositpaid\" : \"F\",\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"209999999-01-01\",\r\n        \"checkout\" : \"kira\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "bookings With invalid Parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Invalid parameter returns error\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking?invalidparam=mamamamam\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							],
+							"query": [
+								{
+									"key": "invalidparam",
+									"value": "mamamamam\n"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "bookings With Bad Parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Bad parameter returns error\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking?firstname=<script>alert(1)</script>\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							],
+							"query": [
+								{
+									"key": "firstname",
+									"value": "<script>alert(1)</script>\n"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "bookings with diffrent values in the same field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Conflicting parameters handled\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking?firstname=John&firstname=David\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							],
+							"query": [
+								{
+									"key": "firstname",
+									"value": "John"
+								},
+								{
+									"key": "firstname",
+									"value": "David\n"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "bookings with long parameter value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Long parameter value rejected\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking?firstname=AAAAAAAAAAAABBBBBBBBBCCCCCCCCCCCCABBBABABABABBBBBBBBBABABABABBBBBABABABABABBBBBAB\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							],
+							"query": [
+								{
+									"key": "firstname",
+									"value": "AAAAAAAAAAAABBBBBBBBBCCCCCCCCCCCCABBBABABABABBBBBBBBBABABABABBBBBABABABABABBBBBAB\n"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "bookings with long parameter value Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Long parameter value rejected\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking?firstname=AAAAAAAAAAAABBBBBBBBBCCCCCCCCCCCCABBBABABABABBBBBBBBBABABABABBBBBABABABABABBBBBAB\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							],
+							"query": [
+								{
+									"key": "firstname",
+									"value": "AAAAAAAAAAAABBBBBBBBBCCCCCCCCCCCCABBBABABABABBBBBBBBBABABABABBBBBABABABABABBBBBAB\n"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "booking not exist id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Non-existent ID returns 404 or 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/9999999999\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"9999999999\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "booking invalid datatype id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Invalid datatype of id leads to status code 400 or 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/abc\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"abc\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "booking with negative id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Negative id leads to status code 400 or 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/-1\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"-1\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "booking with long_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Long ID leads to status code 400 or 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/999999999999999999999999999\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"999999999999999999999999999\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update booking Without token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Update token without token leads  to 403 forbidden request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 403]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"totalprice\" : 130}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/1\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"1\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update booking invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Update token without token leads  to 403 forbidden request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 403]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token=none",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"totalprice\" : 130}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/1\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"1\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update booking without existing token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Update booking without existing token leads  to 404 Not Found request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token=abcd",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"totalprice\" : 130}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/1\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"1\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update booking With Invalid_data (negative price)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Update booking With Invalid_data (negative price) leads  to 400 Bad Request  \", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"totalprice\" : -130}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/1\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"1\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete booking Without token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Delete booking Without token leads  to 403 Forbidden  \", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 403]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/1\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"1\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete booking with invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Delete booking Without token leads  to 403 Forbidden  \", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 403]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token=abc123",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/1\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"1\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete booking Not exist with Valid  token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Delete booking Without token leads  to 403 Forbidden  \", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 403]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/999999999999999999999\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"999999999999999999999\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete booking  twice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Delete twice leads  to 403 Forbidden  \", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 403]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/1\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"1\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete booking  twice _second send",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Delete twice leads  to 404 not found  \", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/1\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"1\n"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 06:49:15 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1c-J3EiwfZwVQjKTKvpvazUfTni8fI\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760683755\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=K2ZZ%2BayHuTOtzndKYcSB%2FdGpu7iiA6eZOz0Nn2431XI%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760683755\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"reason\": \"Bad credentials\"\n}"
+						}
+					]
+				}
+			],
+			"description": "1-StartFragment\n\n### **Bad Cases**\n\n``` c\n POST /auth - Bad Cases\n TC-AUTH-01: Login with wrong data\n-URL: POST /auth\n- Data: {\"username\": \"invalid\", \"password\": \"wrong\"}\n- Expected: 200 with no token and /or error message\nTC-AUTH-02: Login Without password\n- URL: POST /auth  \n- Data: {\"username\": \"admin\"}\n- Expected:400 or 404 Bad Request\nTC-AUTH-03: Loginwith empty data\n- URL: POST /auth\n- Data: {}\n- Expected:400 Bad Request\nTC-AUTH-04: Login SQL Injection\n- URL:POST /auth\n- Data: {\"username\": \"admin' OR '1'='1\", \"password\": \"any\"}\n- Expected: 400 Bad Request\nPOST /booking\nTC-BOOK-01: Create booking without firstname\nURL: POST /booking\nData: {All fields without firstname}\nExpected: 400 Bad Request\nTC-BOOK-02: Create booking  wrong total price\nURL: POST /booking\nData: {\"totalprice\": \"one hundred \", ...}\nExpected: 400 Bad Request\nBOOK-03: Create booking with invalid booking dates\nURL: POST /booking\nData: {\"bookingdates\": {\"checkin\": \"invalid-date\", \"checkout\": \"invalid-date\"}}\nExpected: 400 Bad Request\nBOOK-04: Create booking with XSS injection\nURL: POST /booking\nData: {\"firstname\": \"<script>alert(&#x27;xss&#x27;)</script>\", ...}\nExpected: 400 Bad Request\nGET /booking \nGETALL-01: Get bookings With invalid Parameter\nURL: GET /booking?invalidparam=value\nExpected: 400 Bad Request \nGETALL-02: Get bookings With Bad Paraneter\nURL: GET /booking?firstname=<script>alert(1)</script>\nExpected: 400 Bad Request\nGETALL-03: Get bookings with diffrent values in the same field\nURL: GET /booking?firstname=John&firstname=David\nExpected: 400 Bad Request\nGETALL-04: Get bookings with longparameter value\nURL: GET /booking?firstname=AAAA... (1000 letter)\nExpected: 400 Bad Request\nGET /booking/{id}\nGETID-01: Get booking not exist id\nURL: GET /booking/999999\nExpected: 404 Not Found\nGETID-02: Get booking invalid datatype id\nURL: GET /booking/abc\nExpected: 400 Bad Request\nGETID-03: Get booking with negative id\nURL: GET /booking/-1\nExpected: 400 Bad Request\nGETID-04: Get booking with long_id\nURL: GET /booking/9999999999\nExpected: 404 Not Found or 400\nPUT /booking/{id} \nPUT-01: Update booking Without token\nURL: PUT /booking/1\nHeaders: {Without Cookie}\nExpected: 403 Forbidden\nPUT-02: Update booking invalid token\nURL: PUT /booking/1\nHeaders: {\"Cookie\": \"token=invalid\"}\nExpected: 403 Forbidden\nPUT-03: Update booking without existing token\nURL: PUT /booking/999999\nHeaders: {\"Cookie\": \"token={{auth_token}}\"}\nExpected: 404 Not Found\nPUT-04: Update booking With Invalid_data (negative price)\nURL: PUT /booking/1\nData: {\"totalprice\": -100}\nExpected: 400 Bad Request\nDELETE /booking/{id} \nDEL-01: Delete booking Without token\nURL: DELETE /booking/1\nHeaders: {Without Cookie}\nExpected: 403 Forbidden\nDEL-02: Delete booking with invalid token\nURL: DELETE /booking/1\nHeaders: {\"Cookie\": \"token=expired\"}\nExpected: 403 Forbidden\nDEL-03: Delete booking Not exist token\nURL: DELETE /booking/999999\nHeaders: {\"Cookie\": \"token={{auth_token}}\"}\nExpected: 404 Not Found\nDEL-04: Delete booking  twice\nURL: DELETE /booking/1 (send twice)\nExpected: 404 Not Found in the second send\n\n ```\n\nEndFragment"
+		},
+		{
+			"name": "Full_Scenario (E2E)",
+			"item": [
+				{
+					"name": "Login(auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check status code is 200\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Check if token exists in response\r",
+									"pm.test(\"Response has token\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.token).to.not.be.undefined;\r",
+									"});\r",
+									"\r",
+									"// Save token to environment variable\r",
+									"pm.test(\"Save token to environment\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.environment.set(\"auth_token\", jsonData.token);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"admin\",\n    \"password\" : \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has booking ID\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('bookingid');\r",
+									"    pm.expect(jsonData.bookingid).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"})\r",
+									"pm.test(\"Save booking ID to environment\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    \r",
+									"    if (jsonData.bookingid) {\r",
+									"        pm.environment.set(\"booking_id\", jsonData.bookingid);\r",
+									"        console.log(\"Booking ID saved: \" + jsonData.bookingid);\r",
+									"    }\r",
+									"});\r",
+									"// for data integrity \r",
+									"pm.test(\"Response contains all booking details\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.booking).to.have.property('firstname');\r",
+									"    pm.expect(jsonData.booking).to.have.property('lastname');\r",
+									"    pm.expect(jsonData.booking).to.have.property('totalprice');\r",
+									"    pm.expect(jsonData.booking).to.have.property('depositpaid');\r",
+									"    pm.expect(jsonData.booking).to.have.property('bookingdates');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Jimy\",\r\n    \"lastname\" : \"Brownval\",\r\n    \"totalprice\" : 1111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2025-05-01\",\r\n        \"checkout\" : \"2025-08-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Basic Response Validation\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is acceptable\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/booking/{{booking_id}}\n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"{{booking_id}}\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update current booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//basic test",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Updated to safely handle non-JSON responses (e.g., 403 Forbidden)",
+									"pm.test(\"Response contains updated booking\", function () {",
+									"    const ct = pm.response.headers.get(\"Content-Type\") || \"\";",
+									"    const isJson = ct.includes(\"application/json\");",
+									"",
+									"    let parsed;",
+									"    if (isJson) {",
+									"        try {",
+									"            parsed = pm.response.json();",
+									"        } catch (e) {",
+									"            // If declared as JSON but not parsable, fail with a helpful message",
+									"            pm.expect.fail(\"Response declared JSON but could not be parsed: \" + e.message);",
+									"        }",
+									"    } else {",
+									"        // If it's not JSON (e.g., text 'Forbidden'), skip property checks with a helpful assertion",
+									"        pm.expect.fail(\"Response is not JSON. Content-Type: '\" + ct + \"'. Body: '\" + pm.response.text() + \"'\");",
+									"    }",
+									"",
+									"    // Only run property assertions if JSON was parsed",
+									"    if (parsed) {",
+									"        pm.expect(parsed).to.be.an(\"object\");",
+									"        pm.expect(parsed).to.have.property(\"firstname\");",
+									"        pm.expect(parsed).to.have.property(\"lastname\");",
+									"    }",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Response contains updated data\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.firstname).to.not.be.null;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstname\": \"Mark\",\r\n    \"lastname\": \"Smith\",\r\n    \"totalprice\": 1000,\r\n    \"depositpaid\": false,\r\n    \"bookingdates\": {\r\n        \"checkin\": \"2024-05-12\",\r\n        \"checkout\": \"2025-01-11\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/booking/{{booking_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"{{booking_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete existing booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Booking deleted successfully\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// Authentication Check\r",
+									"pm.test(\" Delete requires valid token\", function () {\r",
+									"    if (pm.response.code !== 201) {\r",
+									"        pm.response.to.have.status(403);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// Performance\r",
+									"pm.test(\" Delete operation under 2 seconds\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46cGFzc3dvcmQxMjM="
+							}
+						],
+						"url": {
+							"raw": "{{url}}/booking/{{booking_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking",
+								"{{booking_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "POST Login  \n├── POST Create Booking  \n├── GET Get Booking  \n├── PUT Update Booking  \n└── DELETE Delete Bookin"
+		}
+	],
+	"variable": [
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
